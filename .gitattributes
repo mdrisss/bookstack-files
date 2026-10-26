@@ -1,0 +1,4 @@
+# Exclus de l'archive installée par Composer
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore

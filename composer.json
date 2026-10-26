@@ -1,0 +1,23 @@
+{
+    "name": "mdrisss/bookstack-files",
+    "description": "Fichiers liés (PDF, documents, schémas...) pour les étagères, livres, chapitres et pages BookStack, avec aperçu en popup et traçabilité dans le journal d'audit.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["bookstack", "laravel", "attachments", "pdf", "afridocs"],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Afridocs\\Files\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Afridocs\\Files\\AfridocsFilesServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
