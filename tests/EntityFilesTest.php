@@ -1,8 +1,8 @@
 <?php
 
-namespace Afridocs\Files\Tests;
+namespace Mdrisss\BookstackFiles\Tests;
 
-use Afridocs\Files\EntityFile;
+use Mdrisss\BookstackFiles\EntityFile;
 use BookStack\Activity\Models\Activity;
 use BookStack\Entities\Models\Entity;
 use Tests\TestCase;
@@ -28,7 +28,7 @@ class EntityFilesTest extends TestCase
 
     protected function filesUrl(Entity $entity): string
     {
-        return '/afridocs/entities/' . $entity->getMorphClass() . '/' . $entity->id . '/files';
+        return '/bookstack-files/entities/' . $entity->getMorphClass() . '/' . $entity->id . '/files';
     }
 
     protected function upload(Entity $entity, string $name = 'procedure.txt')
@@ -56,16 +56,16 @@ class EntityFilesTest extends TestCase
                 $resp->assertStatus(201);
                 $resp->assertJson(['name' => 'norme-' . $entity->getMorphClass() . '.txt', 'can_delete' => true]);
 
-                $this->assertDatabaseHas('afridocs_entity_files', [
+                $this->assertDatabaseHas('bookstack_files', [
                     'entity_type' => $entity->getMorphClass(),
                     'entity_id'   => $entity->id,
                 ]);
             }
 
-            $this->assertEquals(4, Activity::query()->where('type', '=', 'afridocs_file_upload')->count());
+            $this->assertEquals(4, Activity::query()->where('type', '=', 'bookstack_files_upload')->count());
 
             // Libellé lisible dans le journal d'audit et les listes d'activité
-            $activity = Activity::query()->where('type', '=', 'afridocs_file_upload')->first();
+            $activity = Activity::query()->where('type', '=', 'bookstack_files_upload')->first();
             $this->assertEquals('added linked file', $activity->getText());
             // Les traductions d'origine de BookStack restent disponibles
             $this->assertEquals('created page', trans('activities.page_create'));
@@ -98,8 +98,8 @@ class EntityFilesTest extends TestCase
             $this->asEditor();
             $fileId = $this->upload($page)->json('id');
 
-            $this->asViewer()->deleteJson('/afridocs/files/' . $fileId)->assertStatus(403);
-            $this->assertDatabaseHas('afridocs_entity_files', ['id' => $fileId]);
+            $this->asViewer()->deleteJson('/bookstack-files/files/' . $fileId)->assertStatus(403);
+            $this->assertDatabaseHas('bookstack_files', ['id' => $fileId]);
         });
     }
 
@@ -114,8 +114,8 @@ class EntityFilesTest extends TestCase
 
             $this->asViewer();
             $this->getJson($this->filesUrl($book))->assertStatus(404);
-            $this->get('/afridocs/files/' . $fileId)->assertStatus(404);
-            $this->get('/afridocs/files/' . $fileId . '/view')->assertStatus(404);
+            $this->get('/bookstack-files/files/' . $fileId)->assertStatus(404);
+            $this->get('/bookstack-files/files/' . $fileId . '/view')->assertStatus(404);
         });
     }
 
@@ -126,11 +126,11 @@ class EntityFilesTest extends TestCase
             $this->asEditor();
             $fileId = $this->upload($page, 'rapport.txt')->json('id');
 
-            $download = $this->get('/afridocs/files/' . $fileId);
+            $download = $this->get('/bookstack-files/files/' . $fileId);
             $download->assertOk();
             $download->assertHeader('Content-Disposition', "attachment; filename*=UTF-8''rapport.txt");
 
-            $view = $this->get('/afridocs/files/' . $fileId . '/view');
+            $view = $this->get('/bookstack-files/files/' . $fileId . '/view');
             $view->assertOk();
             $view->assertHeader('Content-Type', 'text/plain; charset=utf-8');
             $this->assertStringStartsWith('inline', $view->headers->get('Content-Disposition'));
@@ -154,11 +154,11 @@ class EntityFilesTest extends TestCase
             $fileId = $this->upload($shelf)->json('id');
             $path = EntityFile::query()->find($fileId)->path;
 
-            $this->deleteJson('/afridocs/files/' . $fileId)->assertOk();
+            $this->deleteJson('/bookstack-files/files/' . $fileId)->assertOk();
 
-            $this->assertDatabaseMissing('afridocs_entity_files', ['id' => $fileId]);
+            $this->assertDatabaseMissing('bookstack_files', ['id' => $fileId]);
             $this->assertFileDoesNotExist(storage_path($path));
-            $this->assertDatabaseHas('activities', ['type' => 'afridocs_file_delete']);
+            $this->assertDatabaseHas('activities', ['type' => 'bookstack_files_delete']);
         });
     }
 
@@ -171,7 +171,7 @@ class EntityFilesTest extends TestCase
 
             $this->entities->destroy($page);
 
-            $this->assertDatabaseMissing('afridocs_entity_files', ['id' => $fileId]);
+            $this->assertDatabaseMissing('bookstack_files', ['id' => $fileId]);
         });
     }
 
@@ -181,18 +181,18 @@ class EntityFilesTest extends TestCase
             $book = $this->entities->book();
             $resp = $this->asEditor()->get($book->getUrl());
 
-            $resp->assertSee('data-afd-files', false);
+            $resp->assertSee('data-bsf-files', false);
             $resp->assertSee($this->filesUrl($book), false);
-            $resp->assertSee('/afridocs/assets/afridocs-files.js', false);
+            $resp->assertSee('/bookstack-files/assets/bookstack-files.js', false);
 
             // Le type MIME doit être exécutable, sinon le navigateur refuse le script (nosniff)
-            $this->get('/afridocs/assets/afridocs-files.js')
+            $this->get('/bookstack-files/assets/bookstack-files.js')
                 ->assertOk()
                 ->assertHeader('Content-Type', 'text/javascript; charset=utf-8');
-            $this->get('/afridocs/assets/afridocs-files.css')
+            $this->get('/bookstack-files/assets/bookstack-files.css')
                 ->assertOk()
                 ->assertHeader('Content-Type', 'text/css; charset=utf-8');
-            $this->get('/afridocs/assets/functions.php')->assertNotFound();
+            $this->get('/bookstack-files/assets/functions.php')->assertNotFound();
         });
     }
 }

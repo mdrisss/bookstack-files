@@ -1,6 +1,6 @@
 <?php
 
-namespace Afridocs\Files;
+namespace Mdrisss\BookstackFiles;
 
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Queries\EntityQueries;
@@ -46,12 +46,12 @@ class EntityFileService
     public function findVisibleEntityOrFail(string $type, int $id): Entity
     {
         if (!in_array($type, self::SUPPORTED_TYPES)) {
-            throw new NotFoundException(trans('afridocs-files::messages.entity_not_found'));
+            throw new NotFoundException(trans('bookstack-files::messages.entity_not_found'));
         }
 
         $entity = $this->entityQueries->findVisibleById($type, $id);
         if (!$entity) {
-            throw new NotFoundException(trans('afridocs-files::messages.entity_not_found'));
+            throw new NotFoundException(trans('bookstack-files::messages.entity_not_found'));
         }
 
         return $entity;
@@ -69,13 +69,13 @@ class EntityFileService
         /** @var ?EntityFile $file */
         $file = EntityFile::query()->find($fileId);
         if (!$file) {
-            throw new NotFoundException(trans('afridocs-files::messages.file_not_found'));
+            throw new NotFoundException(trans('bookstack-files::messages.file_not_found'));
         }
 
         try {
             $entity = $this->findVisibleEntityOrFail($file->entity_type, $file->entity_id);
         } catch (NotFoundException) {
-            throw new NotFoundException(trans('afridocs-files::messages.file_not_found'));
+            throw new NotFoundException(trans('bookstack-files::messages.file_not_found'));
         }
 
         return [$file, $entity];
@@ -103,7 +103,7 @@ class EntityFileService
         $extension = strtolower($uploadedFile->getClientOriginalExtension());
         $path = $this->storage->uploadFile(
             $uploadedFile,
-            'uploads/files/afridocs/' . date('Y-m'),
+            'uploads/files/bookstack-files/' . date('Y-m'),
             '',
             $extension,
         );
@@ -161,13 +161,13 @@ class EntityFileService
     }
 
     /**
-     * Extensions autorisées, surchargeables via AFRIDOCS_FILES_EXTENSIONS (liste séparée par des virgules).
+     * Extensions autorisées, surchargeables via BOOKSTACK_FILES_EXTENSIONS (liste séparée par des virgules).
      *
      * @return string[]
      */
     public function getAllowedExtensions(): array
     {
-        $configured = env('AFRIDOCS_FILES_EXTENSIONS');
+        $configured = env('BOOKSTACK_FILES_EXTENSIONS');
         if (!$configured) {
             return self::DEFAULT_EXTENSIONS;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Afridocs\Files;
+namespace Mdrisss\BookstackFiles;
 
 use BookStack\Entities\Models\Entity;
 use BookStack\View\BaseViewBlock;
@@ -8,23 +8,23 @@ use BookStack\View\BaseViewBlock;
 /**
  * Bloc de barre latérale « Fichiers liés », affiché sur les vues
  * d'étagère, de livre, de chapitre et de page.
- * La liste est chargée de manière asynchrone par afridocs-files.js.
+ * La liste est chargée de manière asynchrone par bookstack-files.js.
  */
 class EntityFilesBlock extends BaseViewBlock
 {
     public static function getId(): string
     {
-        return 'afridocs_entity_files';
+        return 'bookstack_files';
     }
 
     public static function getLabel(): string
     {
-        return trans('afridocs-files::messages.block_title');
+        return trans('bookstack-files::messages.block_title');
     }
 
     public function getView(array $viewData): string
     {
-        return 'afridocs-files::block';
+        return 'bookstack-files::block';
     }
 
     public function getViewData(array $viewData): array
@@ -37,6 +37,6 @@ class EntityFilesBlock extends BaseViewBlock
             }
         }
 
-        return ['afridocsEntity' => $entity];
+        return ['bsfEntity' => $entity];
     }
 }

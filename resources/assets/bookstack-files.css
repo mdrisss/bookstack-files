@@ -1,26 +1,26 @@
-/* Afridocs Files - bloc « Fichiers liés » et popup d'aperçu */
+/* BookStack Files - bloc « Fichiers liés » et popup d'aperçu */
 
-.afd-files-list {
+.bsf-files-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.afd-file {
+.bsf-file {
     display: flex;
     align-items: center;
     border-radius: 4px;
 }
 
-.afd-file:hover {
+.bsf-file:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-html.dark-mode .afd-file:hover {
+html.dark-mode .bsf-file:hover {
     background-color: rgba(255, 255, 255, 0.07);
 }
 
-.afd-file-main {
+.bsf-file-main {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -36,40 +36,40 @@ html.dark-mode .afd-file:hover {
     text-decoration: none;
 }
 
-.afd-file-main:hover .afd-file-name {
+.bsf-file-main:hover .bsf-file-name {
     color: var(--color-primary);
 }
 
-.afd-file-icon svg {
+.bsf-file-icon svg {
     width: 20px;
     height: 20px;
     fill: var(--color-primary);
     flex-shrink: 0;
 }
 
-.afd-file-text {
+.bsf-file-text {
     display: flex;
     flex-direction: column;
     min-width: 0;
 }
 
-.afd-file-name {
+.bsf-file-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.afd-file-meta {
+.bsf-file-meta {
     font-size: 0.75em;
     opacity: 0.65;
 }
 
-.afd-file-actions {
+.bsf-file-actions {
     display: flex;
     flex-shrink: 0;
 }
 
-.afd-file-action {
+.bsf-file-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -83,26 +83,26 @@ html.dark-mode .afd-file:hover {
     border-radius: 4px;
 }
 
-.afd-file-action:hover,
-.afd-file-action:focus-visible {
+.bsf-file-action:hover,
+.bsf-file-action:focus-visible {
     opacity: 1;
 }
 
-.afd-file-action svg {
+.bsf-file-action svg {
     width: 16px;
     height: 16px;
     fill: currentColor;
 }
 
-.afd-file-delete:hover {
+.bsf-file-delete:hover {
     color: var(--color-negative, #ab0f0e);
 }
 
-.afd-files-upload {
+.bsf-files-upload {
     margin-top: 8px;
 }
 
-.afd-dropzone {
+.bsf-dropzone {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -114,13 +114,13 @@ html.dark-mode .afd-file:hover {
     opacity: 0.8;
 }
 
-.afd-dropzone:hover,
-.afd-dropzone-active {
+.bsf-dropzone:hover,
+.bsf-dropzone-active {
     border-color: var(--color-primary);
     opacity: 1;
 }
 
-.afd-dropzone input[type="file"] {
+.bsf-dropzone input[type="file"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -128,23 +128,23 @@ html.dark-mode .afd-file:hover {
     pointer-events: none;
 }
 
-.afd-dropzone svg {
+.bsf-dropzone svg {
     width: 18px;
     height: 18px;
     fill: currentColor;
 }
 
-.afd-progress:empty {
+.bsf-progress:empty {
     display: none;
 }
 
 /* Popup d'aperçu */
 
-body.afd-dialog-open {
+body.bsf-dialog-open {
     overflow: hidden;
 }
 
-.afd-dialog {
+.bsf-dialog {
     width: min(1100px, 94vw);
     height: 92vh;
     max-width: none;
@@ -158,21 +158,21 @@ body.afd-dialog-open {
     color: #222;
 }
 
-.afd-dialog[open] {
+.bsf-dialog[open] {
     display: flex;
     flex-direction: column;
 }
 
-html.dark-mode .afd-dialog {
+html.dark-mode .bsf-dialog {
     background: #1f1f1f;
     color: #ddd;
 }
 
-.afd-dialog::backdrop {
+.bsf-dialog::backdrop {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.afd-dialog-header {
+.bsf-dialog-header {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -181,7 +181,7 @@ html.dark-mode .afd-dialog {
     color: #fff;
 }
 
-.afd-dialog-title {
+.bsf-dialog-title {
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -190,7 +190,7 @@ html.dark-mode .afd-dialog {
     font-weight: 600;
 }
 
-.afd-dialog-action {
+.bsf-dialog-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -203,24 +203,24 @@ html.dark-mode .afd-dialog {
     cursor: pointer;
 }
 
-.afd-dialog-action:hover,
-.afd-dialog-action:focus-visible {
+.bsf-dialog-action:hover,
+.bsf-dialog-action:focus-visible {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.afd-dialog-action svg {
+.bsf-dialog-action svg {
     width: 18px;
     height: 18px;
     fill: currentColor;
 }
 
-.afd-dialog-body {
+.bsf-dialog-body {
     flex: 1;
     min-height: 0;
     background: #525659;
 }
 
-.afd-dialog-frame {
+.bsf-dialog-frame {
     width: 100%;
     height: 100%;
     border: 0;

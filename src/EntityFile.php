@@ -1,6 +1,6 @@
 <?php
 
-namespace Afridocs\Files;
+namespace Mdrisss\BookstackFiles;
 
 use BookStack\Activity\Models\Loggable;
 use BookStack\App\Model;
@@ -33,7 +33,7 @@ class EntityFile extends Model implements OwnableInterface, Loggable
         'mp4', 'webm', 'mp3', 'ogg', 'wav',
     ];
 
-    protected $table = 'afridocs_entity_files';
+    protected $table = 'bookstack_files';
     protected $hidden = ['path'];
     protected $casts = [
         'entity_id' => 'integer',
@@ -57,7 +57,7 @@ class EntityFile extends Model implements OwnableInterface, Loggable
 
     public function getUrl(): string
     {
-        return url('/afridocs/files/' . $this->id);
+        return url('/bookstack-files/files/' . $this->id);
     }
 
     public function logDescriptor(): string

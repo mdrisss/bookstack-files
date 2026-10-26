@@ -1,6 +1,6 @@
 <?php
 
-namespace Afridocs\Files;
+namespace Mdrisss\BookstackFiles;
 
 use BookStack\Entities\Models\Entity;
 use BookStack\Exceptions\FileUploadException;
@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class EntityFileController extends Controller
 {
-    public const ACTIVITY_UPLOAD = 'afridocs_file_upload';
-    public const ACTIVITY_DELETE = 'afridocs_file_delete';
+    public const ACTIVITY_UPLOAD = 'bookstack_files_upload';
+    public const ACTIVITY_DELETE = 'bookstack_files_delete';
 
     public function __construct(
         protected EntityFileService $files,
@@ -102,7 +102,7 @@ class EntityFileController extends Controller
         $this->files->delete($file);
         $this->logActivity(self::ACTIVITY_DELETE, $file);
 
-        return response()->json(['message' => trans('afridocs-files::messages.deleted')]);
+        return response()->json(['message' => trans('bookstack-files::messages.deleted')]);
     }
 
     /**

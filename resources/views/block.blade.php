@@ -1,23 +1,23 @@
-@if($afridocsEntity)
-    <section class="afd-files mb-xl"
-             data-afd-files
-             data-list-url="{{ url('/afridocs/entities/' . $afridocsEntity->getMorphClass() . '/' . $afridocsEntity->id . '/files') }}"
+@if($bsfEntity)
+    <section class="bsf-files mb-xl"
+             data-bsf-files
+             data-list-url="{{ url('/bookstack-files/entities/' . $bsfEntity->getMorphClass() . '/' . $bsfEntity->id . '/files') }}"
              data-max-size="{{ config('app.upload_limit') }}"
              hidden>
-        <h5>{{ trans('afridocs-files::messages.block_title') }}</h5>
-        <div class="afd-files-list" data-afd-list aria-live="polite">
-            <p class="text-muted text-small">{{ trans('afridocs-files::messages.loading') }}</p>
+        <h5>{{ trans('bookstack-files::messages.block_title') }}</h5>
+        <div class="bsf-files-list" data-bsf-list aria-live="polite">
+            <p class="text-muted text-small">{{ trans('bookstack-files::messages.loading') }}</p>
         </div>
-        <div class="afd-files-upload" data-afd-upload hidden>
-            <label class="afd-dropzone">
-                <input type="file" data-afd-input multiple>
+        <div class="bsf-files-upload" data-bsf-upload hidden>
+            <label class="bsf-dropzone">
+                <input type="file" data-bsf-input multiple>
                 @icon('upload')
-                <span>{{ trans('afridocs-files::messages.upload_prompt') }}</span>
+                <span>{{ trans('bookstack-files::messages.upload_prompt') }}</span>
             </label>
-            <div class="afd-progress text-small text-muted" data-afd-progress></div>
+            <div class="bsf-progress text-small text-muted" data-bsf-progress></div>
         </div>
     </section>
     @once
-        @include('afridocs-files::assets')
+        @include('bookstack-files::assets')
     @endonce
 @endif

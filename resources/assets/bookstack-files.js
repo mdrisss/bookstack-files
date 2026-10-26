@@ -1,13 +1,13 @@
 /**
- * Afridocs Files - gestion asynchrone des fichiers liés aux entités BookStack.
+ * BookStack Files - gestion asynchrone des fichiers liés aux entités BookStack.
  *
- * Chaque bloc [data-afd-files] charge sa liste via l'API du module, permet
+ * Chaque bloc [data-bsf-files] charge sa liste via l'API du module, permet
  * l'ajout (clic ou glisser-déposer), la suppression, et l'aperçu en popup.
  */
 (function () {
     'use strict';
 
-    const translations = readJson('afd-translations');
+    const translations = readJson('bsf-translations');
     const csrfToken = document.querySelector('meta[name="token"]')?.getAttribute('content') || '';
     let dialog = null;
 
@@ -28,7 +28,7 @@
     }
 
     function icon(name) {
-        const template = document.getElementById('afd-icons');
+        const template = document.getElementById('bsf-icons');
         const svg = template?.content.querySelector(`[data-icon="${name}"] svg`);
         return svg ? svg.cloneNode(true) : document.createTextNode('');
     }
@@ -117,15 +117,15 @@
     function getDialog() {
         if (dialog) return dialog;
 
-        const title = el('div', {class: 'afd-dialog-title'});
-        const openLink = el('a', {class: 'afd-dialog-action', target: '_blank', rel: 'noopener', title: t('open_in_tab'), 'aria-label': t('open_in_tab')}, [icon('export')]);
-        const downloadLink = el('a', {class: 'afd-dialog-action', title: t('download'), 'aria-label': t('download')}, [icon('download')]);
-        const closeButton = el('button', {type: 'button', class: 'afd-dialog-action', title: t('close'), 'aria-label': t('close')}, [icon('close')]);
-        const frame = el('iframe', {class: 'afd-dialog-frame', title: t('preview')});
+        const title = el('div', {class: 'bsf-dialog-title'});
+        const openLink = el('a', {class: 'bsf-dialog-action', target: '_blank', rel: 'noopener', title: t('open_in_tab'), 'aria-label': t('open_in_tab')}, [icon('export')]);
+        const downloadLink = el('a', {class: 'bsf-dialog-action', title: t('download'), 'aria-label': t('download')}, [icon('download')]);
+        const closeButton = el('button', {type: 'button', class: 'bsf-dialog-action', title: t('close'), 'aria-label': t('close')}, [icon('close')]);
+        const frame = el('iframe', {class: 'bsf-dialog-frame', title: t('preview')});
 
-        dialog = el('dialog', {class: 'afd-dialog'}, [
-            el('div', {class: 'afd-dialog-header'}, [title, openLink, downloadLink, closeButton]),
-            el('div', {class: 'afd-dialog-body'}, [frame]),
+        dialog = el('dialog', {class: 'bsf-dialog'}, [
+            el('div', {class: 'bsf-dialog-header'}, [title, openLink, downloadLink, closeButton]),
+            el('div', {class: 'bsf-dialog-body'}, [frame]),
         ]);
 
         closeButton.addEventListener('click', () => dialog.close());
@@ -135,21 +135,21 @@
         });
         dialog.addEventListener('close', () => {
             frame.removeAttribute('src');
-            document.body.classList.remove('afd-dialog-open');
+            document.body.classList.remove('bsf-dialog-open');
         });
 
-        dialog.afd = {title, openLink, downloadLink, frame};
+        dialog.bsf = {title, openLink, downloadLink, frame};
         document.body.append(dialog);
         return dialog;
     }
 
     function openPreview(file) {
         const dlg = getDialog();
-        dlg.afd.title.textContent = file.name;
-        dlg.afd.openLink.href = file.view_url;
-        dlg.afd.downloadLink.href = file.download_url;
-        dlg.afd.frame.src = file.view_url;
-        document.body.classList.add('afd-dialog-open');
+        dlg.bsf.title.textContent = file.name;
+        dlg.bsf.openLink.href = file.view_url;
+        dlg.bsf.downloadLink.href = file.download_url;
+        dlg.bsf.frame.src = file.view_url;
+        document.body.classList.add('bsf-dialog-open');
         dlg.showModal();
     }
 
@@ -160,10 +160,10 @@
             this.root = root;
             this.listUrl = root.dataset.listUrl;
             this.maxSizeMb = parseInt(root.dataset.maxSize || '0', 10);
-            this.list = root.querySelector('[data-afd-list]');
-            this.upload = root.querySelector('[data-afd-upload]');
-            this.input = root.querySelector('[data-afd-input]');
-            this.progress = root.querySelector('[data-afd-progress]');
+            this.list = root.querySelector('[data-bsf-list]');
+            this.upload = root.querySelector('[data-bsf-upload]');
+            this.input = root.querySelector('[data-bsf-input]');
+            this.progress = root.querySelector('[data-bsf-progress]');
             this.canUpload = false;
             this.files = [];
 
@@ -202,14 +202,14 @@
             const tooltip = file.created_by ? t('added_by', {user: file.created_by, date: formatDate(file.created_at)}) : '';
 
             const main = el(file.previewable ? 'button' : 'a', {
-                class: 'afd-file-main',
+                class: 'bsf-file-main',
                 title: tooltip,
                 ...(file.previewable ? {type: 'button'} : {href: file.download_url}),
             }, [
-                el('span', {class: 'afd-file-icon'}, [icon(isImage ? 'image' : 'file')]),
-                el('span', {class: 'afd-file-text'}, [
-                    el('span', {class: 'afd-file-name', text: file.name}),
-                    el('span', {class: 'afd-file-meta', text: meta}),
+                el('span', {class: 'bsf-file-icon'}, [icon(isImage ? 'image' : 'file')]),
+                el('span', {class: 'bsf-file-text'}, [
+                    el('span', {class: 'bsf-file-name', text: file.name}),
+                    el('span', {class: 'bsf-file-meta', text: meta}),
                 ]),
             ]);
 
@@ -218,20 +218,20 @@
             }
 
             const actions = [
-                el('a', {class: 'afd-file-action', href: file.download_url, title: t('download'), 'aria-label': t('download')}, [icon('download')]),
+                el('a', {class: 'bsf-file-action', href: file.download_url, title: t('download'), 'aria-label': t('download')}, [icon('download')]),
             ];
 
             if (file.can_delete) {
                 actions.push(el('button', {
                     type: 'button',
-                    class: 'afd-file-action afd-file-delete',
+                    class: 'bsf-file-action bsf-file-delete',
                     title: t('delete'),
                     'aria-label': t('delete'),
                     onclick: () => this.deleteFile(file),
                 }, [icon('delete')]));
             }
 
-            return el('div', {class: 'afd-file'}, [main, el('div', {class: 'afd-file-actions'}, actions)]);
+            return el('div', {class: 'bsf-file'}, [main, el('div', {class: 'bsf-file-actions'}, actions)]);
         }
 
         bindUpload() {
@@ -242,15 +242,15 @@
                 this.input.value = '';
             });
 
-            const zone = this.upload.querySelector('.afd-dropzone');
+            const zone = this.upload.querySelector('.bsf-dropzone');
             zone.addEventListener('dragover', event => {
                 event.preventDefault();
-                zone.classList.add('afd-dropzone-active');
+                zone.classList.add('bsf-dropzone-active');
             });
-            zone.addEventListener('dragleave', () => zone.classList.remove('afd-dropzone-active'));
+            zone.addEventListener('dragleave', () => zone.classList.remove('bsf-dropzone-active'));
             zone.addEventListener('drop', event => {
                 event.preventDefault();
-                zone.classList.remove('afd-dropzone-active');
+                zone.classList.remove('bsf-dropzone-active');
                 this.uploadFiles(Array.from(event.dataTransfer?.files || []));
             });
         }
@@ -296,9 +296,9 @@
     }
 
     function init() {
-        document.querySelectorAll('[data-afd-files]').forEach(root => {
-            if (!root.afdBlock) {
-                root.afdBlock = new FilesBlock(root);
+        document.querySelectorAll('[data-bsf-files]').forEach(root => {
+            if (!root.bsfBlock) {
+                root.bsfBlock = new FilesBlock(root);
             }
         });
     }
